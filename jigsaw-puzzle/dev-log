@@ -9,3 +9,5 @@ Learn Path:
 No1:
     xcode help menu, ios doc and reference. Graphic & Animation of iOS 9.3 doc.
     Image I/O Programming Guide
+    Quartz 2D
+        UIView 的drawRect方法可以实现窗口局部刷新。

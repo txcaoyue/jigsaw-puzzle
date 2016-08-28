@@ -11,12 +11,13 @@ import ImageIO
 
 class ViewController: UIViewController {
 
-    @IBAction func drawLine(sender: UIButton) {
-        var ctx = UIGraphicsGetCurrentContext()!
-        
-        
+    @IBAction func butClick(sender: UIButton) {
     }
     
+
+    @IBOutlet var mainView: UIView!
+    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
