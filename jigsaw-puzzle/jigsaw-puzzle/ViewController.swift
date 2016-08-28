@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import ImageIO
 
 class ViewController: UIViewController {
 
     @IBAction func drawLine(sender: UIButton) {
-        var ctx: CGContextRef = UIGraphicsGetCurrentContext()!
+        var ctx = UIGraphicsGetCurrentContext()!
         
         
     }
