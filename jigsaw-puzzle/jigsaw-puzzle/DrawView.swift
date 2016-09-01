@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ImageIO
 
 class DrawView: UIView {
 
@@ -22,5 +23,11 @@ class DrawView: UIView {
         CGContextMoveToPoint(ctx, 0, 0)
         CGContextAddLineToPoint(ctx, 150, 200)
         CGContextStrokePath(ctx)
+        
+        var imagePath = NSBundle.mainBundle().pathForResource("test99", ofType: "bmp")
+        var uiimg = UIImage.init(named:imagePath!, inBundle:nil, compatibleWithTraitCollection:nil)
+        var image = uiimg!.CGImage;
+        var rect = CGRectMake(0, 0, 600, 600)
+        CGContextDrawImage(ctx, rect, image)
     }
 }
