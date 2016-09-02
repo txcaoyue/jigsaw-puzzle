@@ -31,16 +31,17 @@ class DrawView: UIView {
         //CGContextDrawImage(ctx, rect, cgImage)
         
         var srcRect = CGRectMake(0, 0, 200, 200)
-        var dstRect = CGRectMake(0, 0, 200, 200)
+        var dstRect = CGRectMake(20, 20, 200, 200)
         for x in [0.0, 200.0, 400.0] {
+            dstRect.origin.y = 20
             for y in [0.0, 200.0, 400.0] {
                 srcRect.origin.x = CGFloat(x)
                 srcRect.origin.y = CGFloat(y)
-                dstRect.origin.x = CGFloat(x)
-                dstRect.origin.y = CGFloat(y)
                 var subImage = CGImageCreateWithImageInRect(cgImage, srcRect)
                 CGContextDrawImage(ctx, dstRect, subImage)
+                dstRect.origin.y = dstRect.origin.y + dstRect.size.height + 20
             }
+            dstRect.origin.x = dstRect.origin.x + dstRect.size.width + 20
         }
     }
 }
