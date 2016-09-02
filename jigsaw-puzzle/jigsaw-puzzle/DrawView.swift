@@ -44,4 +44,19 @@ class DrawView: UIView {
             dstRect.origin.x = dstRect.origin.x + dstRect.size.width + 20
         }
     }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        //print("touch begin.\(event!)");
+        let p = (touches as NSSet).anyObject()?.locationInView(self)
+        print("touch begin.\(p!.x), \(p!.y)")
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        print("touch end.");
+    }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        print("touch moved.");
+    }
+    
 }
