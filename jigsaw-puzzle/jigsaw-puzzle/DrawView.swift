@@ -24,10 +24,23 @@ class DrawView: UIView {
         CGContextAddLineToPoint(ctx, 150, 200)
         CGContextStrokePath(ctx)
         
-        var imagePath = NSBundle.mainBundle().pathForResource("test99", ofType: "bmp")
+        let imagePath = NSBundle.mainBundle().pathForResource("test99", ofType: "bmp")
         var uiimg = UIImage.init(named:imagePath!, inBundle:nil, compatibleWithTraitCollection:nil)
-        var image = uiimg!.CGImage;
-        var rect = CGRectMake(0, 0, 600, 600)
-        CGContextDrawImage(ctx, rect, image)
+        var cgImage = uiimg!.CGImage;
+        //var rect = CGRectMake(0, 0, 600, 600)
+        //CGContextDrawImage(ctx, rect, cgImage)
+        
+        var srcRect = CGRectMake(0, 0, 200, 200)
+        var dstRect = CGRectMake(0, 0, 200, 200)
+        for x in [0.0, 200.0, 400.0] {
+            for y in [0.0, 200.0, 400.0] {
+                srcRect.origin.x = CGFloat(x)
+                srcRect.origin.y = CGFloat(y)
+                dstRect.origin.x = CGFloat(x)
+                dstRect.origin.y = CGFloat(y)
+                var subImage = CGImageCreateWithImageInRect(cgImage, srcRect)
+                CGContextDrawImage(ctx, dstRect, subImage)
+            }
+        }
     }
 }
