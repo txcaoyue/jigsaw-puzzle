@@ -11,3 +11,10 @@ No1:
     Image I/O Programming Guide
     Quartz 2D
         UIView 的drawRect方法可以实现窗口局部刷新。
+
+
+
+TODO
+    判断某个子图是否可以移动
+    移动子图
+    根据子图的位置，输出UIView需要更的范围
