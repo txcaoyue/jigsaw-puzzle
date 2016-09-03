@@ -12,6 +12,7 @@ import ImageIO
 class DrawView: UIView {
     var ctx : CGContext? = nil
     var cgImage : CGImage? = nil
+    var increase : Int = 0
 
     /*
     // Only override drawRect: if you perform custom drawing.
@@ -40,16 +41,31 @@ class DrawView: UIView {
         
         var srcRect = CGRectMake(0, 0, 200, 200)
         var dstRect = CGRectMake(20, 20, 200, 200)
-        for x in [0.0, 200.0, 400.0] {
-            dstRect.origin.y = 20
-            for y in [0.0, 200.0, 400.0] {
-                srcRect.origin.x = CGFloat(x)
-                srcRect.origin.y = CGFloat(y)
-                let subImage = CGImageCreateWithImageInRect(cgImage, srcRect) //TODO: release subImage
-                CGContextDrawImage(ctx, dstRect, subImage)
-                dstRect.origin.y = dstRect.origin.y + dstRect.size.height + 20
+        
+        if increase == 0 {
+            for x in [0.0, 200.0, 400.0] {
+                dstRect.origin.y = 20
+                for y in [0.0, 200.0, 400.0] {
+                    srcRect.origin.x = CGFloat(x)
+                    srcRect.origin.y = CGFloat(y)
+                    let subImage = CGImageCreateWithImageInRect(cgImage, srcRect) //TODO: release subImage
+                    CGContextDrawImage(ctx, dstRect, subImage)
+                    dstRect.origin.y = dstRect.origin.y + dstRect.size.height + 20
+                }
+                dstRect.origin.x = dstRect.origin.x + dstRect.size.width + 20
             }
-            dstRect.origin.x = dstRect.origin.x + dstRect.size.width + 20
+        } else {
+            for x in [400.0, 200.0, 0.0] {
+                dstRect.origin.y = 20
+                for y in [400.0, 200.0, 0.0] {
+                    srcRect.origin.x = CGFloat(x)
+                    srcRect.origin.y = CGFloat(y)
+                    let subImage = CGImageCreateWithImageInRect(cgImage, srcRect) //TODO: release subImage
+                    CGContextDrawImage(ctx, dstRect, subImage)
+                    dstRect.origin.y = dstRect.origin.y + dstRect.size.height + 20
+                }
+                dstRect.origin.x = dstRect.origin.x + dstRect.size.width + 20
+            }
         }
     }
     
@@ -57,6 +73,7 @@ class DrawView: UIView {
         let p = (touches as NSSet).anyObject()?.locationInView(self)
         print("touch begin.\(p!.x), \(p!.y)")
     
+        increase = (increase + 1) % 2
         //self.setNeedsDisplay()
         self.setNeedsDisplayInRect(CGRectMake(0, 0, p!.x, p!.y))
     }
