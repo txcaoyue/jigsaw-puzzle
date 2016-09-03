@@ -21,6 +21,8 @@ class DrawView: UIView {
     }
     */
     override func drawRect(rect: CGRect) {
+        print("drawRect \(rect)")
+        
         if ctx == nil {
             ctx = UIGraphicsGetCurrentContext()
         }
@@ -54,16 +56,19 @@ class DrawView: UIView {
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         let p = (touches as NSSet).anyObject()?.locationInView(self)
         print("touch begin.\(p!.x), \(p!.y)")
+    
+        //self.setNeedsDisplay()
+        self.setNeedsDisplayInRect(CGRectMake(0, 0, p!.x, p!.y))
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        let p = (touches as NSSet).anyObject()?.locationInView(self)
-        print("touch end.\(p!.x), \(p!.y)")
+        //let p = (touches as NSSet).anyObject()?.locationInView(self)
+        //print("touch end.\(p!.x), \(p!.y)")
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        let p = (touches as NSSet).anyObject()?.locationInView(self)
-        print("touch moved.\(p!.x), \(p!.y)")
+        //let p = (touches as NSSet).anyObject()?.locationInView(self)
+        //print("touch moved.\(p!.x), \(p!.y)")
     }
     
 }
