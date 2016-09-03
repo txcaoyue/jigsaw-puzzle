@@ -14,6 +14,7 @@
 		01176CBB1D71E29A00B52CA1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01176CB91D71E29A00B52CA1 /* LaunchScreen.storyboard */; };
 		01254E771D78709100707157 /* test100.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 01254E751D78709100707157 /* test100.bmp */; };
 		01254E781D78709100707157 /* test99.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 01254E761D78709100707157 /* test99.bmp */; };
+		01D74F1F1D7ABD9C00898258 /* DrawModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D74F1E1D7ABD9C00898258 /* DrawModel.swift */; };
 		01F8D8871D728930002DDC8E /* dev-log in Resources */ = {isa = PBXBuildFile; fileRef = 01F8D8861D728930002DDC8E /* dev-log */; };
 		01F8D88B1D731D12002DDC8E /* DrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F8D88A1D731D12002DDC8E /* DrawView.swift */; };
 /* End PBXBuildFile section */
@@ -28,6 +29,7 @@
 		01176CBC1D71E29A00B52CA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		01254E751D78709100707157 /* test100.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = test100.bmp; sourceTree = "<group>"; };
 		01254E761D78709100707157 /* test99.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = test99.bmp; sourceTree = "<group>"; };
+		01D74F1E1D7ABD9C00898258 /* DrawModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawModel.swift; sourceTree = "<group>"; };
 		01F8D8861D728930002DDC8E /* dev-log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "dev-log"; sourceTree = SOURCE_ROOT; };
 		01F8D88A1D731D12002DDC8E /* DrawView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -62,6 +64,7 @@
 		01176CAF1D71E29A00B52CA1 /* jigsaw-puzzle */ = {
 			isa = PBXGroup;
 			children = (
+				01D74F1E1D7ABD9C00898258 /* DrawModel.swift */,
 				01F8D8861D728930002DDC8E /* dev-log */,
 				01176CB01D71E29A00B52CA1 /* AppDelegate.swift */,
 				01176CB21D71E29A00B52CA1 /* ViewController.swift */,
@@ -160,6 +163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01176CB31D71E29A00B52CA1 /* ViewController.swift in Sources */,
+				01D74F1F1D7ABD9C00898258 /* DrawModel.swift in Sources */,
 				01F8D88B1D731D12002DDC8E /* DrawView.swift in Sources */,
 				01176CB11D71E29A00B52CA1 /* AppDelegate.swift in Sources */,
 			);

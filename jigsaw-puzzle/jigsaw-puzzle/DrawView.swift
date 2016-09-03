@@ -11,8 +11,11 @@ import ImageIO
 
 class DrawView: UIView {
     var ctx : CGContext? = nil
+    var uiimg : UIImage? = nil
     var cgImage : CGImage? = nil
     var increase : Int = 0
+    var drawModel : DrawModel? = nil
+    var subImageCount : Int = 0
 
     /*
     // Only override drawRect: if you perform custom drawing.
@@ -27,45 +30,27 @@ class DrawView: UIView {
         if ctx == nil {
             ctx = UIGraphicsGetCurrentContext()
         }
-        CGContextMoveToPoint(ctx, 0, 0)
+        /*CGContextMoveToPoint(ctx, 0, 0)
         CGContextAddLineToPoint(ctx, 150, 200)
-        CGContextStrokePath(ctx)
+        CGContextStrokePath(ctx)*/
         
         if cgImage == nil {
             let imagePath = NSBundle.mainBundle().pathForResource("test99", ofType: "bmp")
-            let uiimg = UIImage.init(named:imagePath!, inBundle:nil, compatibleWithTraitCollection:nil)
+            uiimg = UIImage.init(named:imagePath!, inBundle:nil, compatibleWithTraitCollection:nil)
             cgImage = uiimg!.CGImage;
         }
-        //var rect = CGRectMake(0, 0, 600, 600)
-        //CGContextDrawImage(ctx, rect, cgImage)
+
+         if drawModel == nil {
+            drawModel = DrawModel()
+            drawModel?.SetDstPanel(CGRectMake(0.0, 0.0, 660, 660), _subImageBlankH: 10, _subImageBlankV: 10)
+            subImageCount = drawModel!.ImportImage(imageSize: uiimg!.size, hNum: 3, vNum: 3)
+        }
         
-        var srcRect = CGRectMake(0, 0, 200, 200)
-        var dstRect = CGRectMake(20, 20, 200, 200)
-        
-        if increase == 0 {
-            for x in [0.0, 200.0, 400.0] {
-                dstRect.origin.y = 20
-                for y in [0.0, 200.0, 400.0] {
-                    srcRect.origin.x = CGFloat(x)
-                    srcRect.origin.y = CGFloat(y)
-                    let subImage = CGImageCreateWithImageInRect(cgImage, srcRect) //TODO: release subImage
-                    CGContextDrawImage(ctx, dstRect, subImage)
-                    dstRect.origin.y = dstRect.origin.y + dstRect.size.height + 20
-                }
-                dstRect.origin.x = dstRect.origin.x + dstRect.size.width + 20
-            }
-        } else {
-            for x in [400.0, 200.0, 0.0] {
-                dstRect.origin.y = 20
-                for y in [400.0, 200.0, 0.0] {
-                    srcRect.origin.x = CGFloat(x)
-                    srcRect.origin.y = CGFloat(y)
-                    let subImage = CGImageCreateWithImageInRect(cgImage, srcRect) //TODO: release subImage
-                    CGContextDrawImage(ctx, dstRect, subImage)
-                    dstRect.origin.y = dstRect.origin.y + dstRect.size.height + 20
-                }
-                dstRect.origin.x = dstRect.origin.x + dstRect.size.width + 20
-            }
+        /* draw panel according draw model */
+        for index in 0 ... subImageCount-1 {
+            let subImage = drawModel!.GetSubImage(index)
+            let _image = CGImageCreateWithImageInRect(cgImage, subImage!.SrcRect)
+            CGContextDrawImage(ctx, subImage!.DstRect, _image)
         }
     }
     
@@ -73,7 +58,7 @@ class DrawView: UIView {
         let p = (touches as NSSet).anyObject()?.locationInView(self)
         print("touch begin.\(p!.x), \(p!.y)")
     
-        increase = (increase + 1) % 2
+        //increase = (increase + 1) % 2
         //self.setNeedsDisplay()
         self.setNeedsDisplayInRect(CGRectMake(0, 0, p!.x, p!.y))
     }
