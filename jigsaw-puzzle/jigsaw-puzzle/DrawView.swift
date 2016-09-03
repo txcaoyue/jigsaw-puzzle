@@ -44,6 +44,7 @@ class DrawView: UIView {
             drawModel = DrawModel()
             drawModel?.SetDstPanel(CGRectMake(0.0, 0.0, 660, 660), _subImageBlankH: 10, _subImageBlankV: 10)
             subImageCount = drawModel!.ImportImage(imageSize: uiimg!.size, hNum: 3, vNum: 3)
+            drawModel!.SetBlank(0)
         }
         
         /* draw panel according draw model */
@@ -51,6 +52,11 @@ class DrawView: UIView {
             let subImage = drawModel!.GetSubImage(index)
             let _image = CGImageCreateWithImageInRect(cgImage, subImage!.SrcRect)
             CGContextDrawImage(ctx, subImage!.DstRect, _image)
+            if subImage!.Blank {
+                CGContextMoveToPoint(ctx, subImage!.DstRect.origin.x, subImage!.DstRect.origin.y)
+                CGContextAddLineToPoint(ctx, subImage!.DstRect.origin.x + subImage!.DstRect.size.width, subImage!.DstRect.origin.y + subImage!.DstRect.size.height)
+                CGContextStrokePath(ctx)
+            }
         }
     }
     

@@ -122,6 +122,18 @@ class DrawModel {
         return h * v
     }
     
+    internal func SetBlank(index : Int) -> Void {
+        if subImages.count == 0 {
+            return
+        }
+        
+        if index >= hNum * vNum {
+            return
+        }
+        
+        subImages[index/hNum][index%vNum].Blank = true
+    }
+    
     internal func GetSubImage(index : Int) -> SubImage? {
         if subImages.count == 0 {
             return nil
