@@ -68,16 +68,29 @@ class SubImage {
 
 class DrawModel {
     /* about draw panel of UIView */
-    var dstRect = CGRectMake(0.0, 0.0, 100.0, 100.0)
-    var dstBlockSize = CGSizeMake(300.0, 300.0)
-    var dstRectInBlock = CGRectMake(50.0, 50.0, 200.0, 200.0)
-    var subImageBlankH : CGFloat = 0.0
-    var subImageBlankV : CGFloat = 0.0
+    private var dstRect = CGRectMake(0.0, 0.0, 100.0, 100.0)
+    private var dstBlockSize = CGSizeMake(300.0, 300.0)
+    private var dstRectInBlock = CGRectMake(50.0, 50.0, 200.0, 200.0)
+    private var subImageBlankH : CGFloat = 0.0
+    private var subImageBlankV : CGFloat = 0.0
     
     /* about image */
-    var srcSize = CGSizeMake(100.0, 100.0)
-    var hNum : Int = 3;
-    var vNum : Int = 3;
+    private var srcSize = CGSizeMake(100.0, 100.0)
+    private var hNum : Int = 3;
+    private var vNum : Int = 3;
+    private var subImages = [[SubImage]]()
+    
+    private func DstRectByIndex(i0 : Int, _ i1 : Int) -> CGRect{
+        var rect : CGRect = CGRect()
+        rect.origin.x = dstRect.origin.x + CGFloat(i1) * dstBlockSize.width + dstRectInBlock.origin.x
+        rect.origin.y = dstRect.origin.y + CGFloat(i0) * dstBlockSize.height + dstRectInBlock.origin.y
+        rect.size = dstRectInBlock.size
+        return rect
+    }
+    
+    private func SubImageCanMove(line : Int, _ row : Int) -> Bool {
+        return false
+    }
     
     internal func SetDstPanel(_dstRect : CGRect, _subImageBlankH : CGFloat, _subImageBlankV :CGFloat)
     {
@@ -146,15 +159,18 @@ class DrawModel {
         return subImages[index/hNum][index%vNum]
     }
     
-    private func DstRectByIndex(i0 : Int, _ i1 : Int) -> CGRect{
-        var rect : CGRect = CGRect()
-        rect.origin.x = dstRect.origin.x + CGFloat(i1) * dstBlockSize.width + dstRectInBlock.origin.x
-        rect.origin.y = dstRect.origin.y + CGFloat(i0) * dstBlockSize.height + dstRectInBlock.origin.y
-        rect.size = dstRectInBlock.size
-        return rect
+    internal func Click(point : CGPoint) -> Void {
+        if (!dstRect.contains(point)) {
+            print("click out of panel.")
+            return
+        }
+        
+        var line : Int = Int((point.y - dstRect.origin.y) / dstBlockSize.height)
+        var row : Int = Int((point.x - dstRect.origin.x) / dstBlockSize.width)
+        
+        if (!SubImageCanMove(line, row)) {
+            print("subImages[\(line)][\(row)] can't move.")
+        }
     }
-    
-    /* internal control */
-    var subImages = [[SubImage]]()
     
 }

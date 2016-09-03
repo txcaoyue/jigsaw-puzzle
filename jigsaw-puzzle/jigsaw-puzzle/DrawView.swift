@@ -30,9 +30,6 @@ class DrawView: UIView {
         if ctx == nil {
             ctx = UIGraphicsGetCurrentContext()
         }
-        /*CGContextMoveToPoint(ctx, 0, 0)
-        CGContextAddLineToPoint(ctx, 150, 200)
-        CGContextStrokePath(ctx)*/
         
         if cgImage == nil {
             let imagePath = NSBundle.mainBundle().pathForResource("test99", ofType: "bmp")
@@ -64,6 +61,9 @@ class DrawView: UIView {
         let p = (touches as NSSet).anyObject()?.locationInView(self)
         print("touch begin.\(p!.x), \(p!.y)")
     
+        if drawModel != nil {
+            drawModel!.Click(p!)
+        }
         //increase = (increase + 1) % 2
         //self.setNeedsDisplay()
         self.setNeedsDisplayInRect(CGRectMake(0, 0, p!.x, p!.y))
