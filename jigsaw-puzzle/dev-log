@@ -12,16 +12,16 @@ No1:
     Quartz 2D
         UIView 的drawRect方法可以实现窗口局部刷新。
 
-DONE
-    判断某个子图是否可以移动
-    移动子图
-    根据子图的位置，输出UIView需要更的范围
-    adjust coordinated system
-
 
 add story:
     the rescuer 拯救者
     图片被魔头打散了，各个部分被施以魔法冰封。然而有一位小勇士受到了大地的祝福，身披绿色光环，肩负起重新排列原始图像的重任。他每次只能移动一步，每步可以跟周围的部分交换位置，一直走下去直到所有的部分在应有的位置上。等图片重现江湖之日就是魔头被打败之时。
 
 TODO
-    打乱顺序： 数组排序
+    (DONE)判断某个子图是否可以移动
+    (DONE)移动子图
+    (DONE)根据子图的位置，输出UIView需要更的范围
+    (DONE)adjust coordinated system
+    (DONE)打乱顺序： 数组排序
+    board方框，绿色光环
+
