@@ -25,7 +25,7 @@ class DrawView: UIView {
     }
     */
     override func drawRect(rect: CGRect) {
-        print("drawRect \(rect)")
+        //print("drawRect \(rect)")
         
         if ctx == nil {
             ctx = UIGraphicsGetCurrentContext()
@@ -39,11 +39,12 @@ class DrawView: UIView {
 
          if drawModel == nil {
             drawModel = DrawModel()
-            drawModel?.SetDstPanel(CGRectMake(0.0, 0.0, 660, 660), _subImageBlankH: 10, _subImageBlankV: 10)
-            subImageCount = drawModel!.ImportImage(imageSize: uiimg!.size, hNum: 3, vNum: 3)
-            drawModel!.SetBlank(0)
+            drawModel?.SetDstPanel(CGRectMake(0.0, 0.0, 660, 680), _subImageBorderTop: 10, _subImageBorderLeft: 10)
+            subImageCount = drawModel!.ImportImage(imageSize: uiimg!.size, lineNum: 3, rowNum: 3)
+            drawModel!.SetBlank(4)
         }
         
+        //print("subImageCount : \(subImageCount)");
         /* draw panel according draw model */
         for index in 0 ... subImageCount-1 {
             let subImage = drawModel!.GetSubImage(index)
@@ -59,14 +60,14 @@ class DrawView: UIView {
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         let p = (touches as NSSet).anyObject()?.locationInView(self)
-        print("touch begin.\(p!.x), \(p!.y)")
+        //print("touch begin.\(p!.x), \(p!.y)")
     
         if drawModel != nil {
             drawModel!.Click(p!)
         }
         //increase = (increase + 1) % 2
-        //self.setNeedsDisplay()
-        self.setNeedsDisplayInRect(CGRectMake(0, 0, p!.x, p!.y))
+        self.setNeedsDisplay()
+        //self.setNeedsDisplayInRect(CGRectMake(0, 0, p!.x, p!.y))
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
