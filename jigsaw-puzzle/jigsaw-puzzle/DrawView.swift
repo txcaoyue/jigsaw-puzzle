@@ -17,13 +17,6 @@ class DrawView: UIView {
     var drawModel : DrawModel? = nil
     var subImageCount : Int = 0
 
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-        // Drawing code
-    }
-    */
     override func drawRect(rect: CGRect) {
         //print("drawRect \(rect)")
         
@@ -31,6 +24,7 @@ class DrawView: UIView {
             ctx = UIGraphicsGetCurrentContext()
         }
 
+        /* adjust coregraphics's coordinated system */
         CGContextTranslateCTM(ctx, 0.0, self.frame.size.height);
         CGContextScaleCTM(ctx, 1.0, -1.0);
         
@@ -43,7 +37,7 @@ class DrawView: UIView {
 
          if drawModel == nil {
             drawModel = DrawModel()
-            drawModel?.SetDstPanel(CGRectMake(0.0, 0.0, 660, 680), _subImageBorderLeft: 10, _subImageBorderBottom: 10)
+            drawModel?.SetDstPanel(CGRectMake(0.0, 0.0, 660, 660), _subImageBorderLeft: 5, _subImageBorderBottom: 5)
             subImageCount = drawModel!.ImportImage(imageSize: uiimg!.size, lineNum: 3, rowNum: 3)
             drawModel!.SetBlank(0)
         }
