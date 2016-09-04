@@ -15,6 +15,17 @@ class SubImage {
     private var srcRect = CGRectMake(0, 0, 200, 200)
     private var dstRect = CGRectMake(0, 0, 200, 200)
     private var orgPosition = SubImagePosition(0, 0)
+    private var randId = arc4random()
+    
+    var RandID : UInt32 {
+        get {
+            return randId
+        }
+        
+        set(v) {
+            randId = v
+        }
+    }
     
     var Blank : Bool {
         get {
@@ -90,7 +101,7 @@ class DrawModel {
     private var blankLine : Int = 0
     private var blankRow : Int = 0
     
-    private func DstRectByIndex(line : Int, _ row : Int) -> CGRect{
+    private func DstRectByPosition(line : Int, _ row : Int) -> CGRect{
         var rect : CGRect = CGRect()
         rect.origin.x = dstRect.origin.x + CGFloat(row) * dstBlockSize.width + dstRectInBlock.origin.x
         rect.origin.y = dstRect.origin.y + CGFloat(line) * dstBlockSize.height + dstRectInBlock.origin.y
@@ -123,8 +134,8 @@ class DrawModel {
         subImages[pos2.line][pos2.row] = image
         
         /* update subImage dst rect in uiview*/
-        subImages[pos1.line][pos1.row].DstRect = DstRectByIndex(pos1.line, pos1.row)
-        subImages[pos2.line][pos2.row].DstRect = DstRectByIndex(pos2.line, pos2.row)
+        subImages[pos1.line][pos1.row].DstRect = DstRectByPosition(pos1.line, pos1.row)
+        subImages[pos2.line][pos2.row].DstRect = DstRectByPosition(pos2.line, pos2.row)
         
         /* update blank block position */
         if subImages[pos1.line][pos1.row].Blank {
@@ -138,6 +149,20 @@ class DrawModel {
         }
         
         //print("after switch. pos1:\(subImages[pos1.line][pos1.row].toString())")
+    }
+    
+    private func DisOrderSubImages() -> Void {
+        /* dis-order */
+        var tempSubImages = [SubImage]()
+        for i in 0...lineNum*rowNum-1 {
+            subImages[i/rowNum][i%rowNum].RandID = arc4random()
+            tempSubImages.append(subImages[i/rowNum][i%rowNum])
+        }
+        tempSubImages.sortInPlace({$0.RandID > $1.RandID})
+        for i in 0...lineNum*rowNum-1 {
+            subImages[i/rowNum][i%rowNum] = tempSubImages[i]
+            subImages[i/rowNum][i%rowNum].DstRect = DstRectByPosition(i/rowNum, i%rowNum)
+        }
     }
     
     internal func SetDstPanel(_dstRect : CGRect, _subImageBorderLeft :CGFloat, _subImageBorderBottom : CGFloat)
@@ -171,15 +196,18 @@ class DrawModel {
             subImages.append([SubImage]())
             for row in 0...rowNum-1 {
                 let subImage = SubImage()
-                subImage.Blank = false
+                //subImage.Blank = false /* default */
                 subImage.orgPosition = SubImagePosition(line, row)
                 //subImage.SrcRect = CGRect(x: CGFloat(row) * subw, y: CGFloat(line) * subh, width: subw, height: subh) /* TODO : as the uiimage is not the user coordinated system */
                 subImage.SrcRect = CGRect(x: CGFloat(row) * subw, y: CGFloat(lineNum - 1 - line) * subh, width: subw, height: subh)
-                subImage.DstRect = DstRectByIndex(line, row)
+                subImage.DstRect = DstRectByPosition(line, row)
                 subImages[line].append(subImage)
                 //print("subImages[\(line)][\(row)]:\(subImages[line][row].toString())")
             }
         }
+        
+        DisOrderSubImages()
+        
         return lineNum * rowNum
     }
     
