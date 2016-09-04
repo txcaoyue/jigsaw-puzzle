@@ -79,7 +79,7 @@ class DrawModel {
     private var dstRect = CGRectMake(0.0, 0.0, 100.0, 100.0)
     private var dstBlockSize = CGSizeMake(300.0, 300.0)
     private var dstRectInBlock = CGRectMake(50.0, 50.0, 200.0, 200.0)
-    private var subImageBorderTop : CGFloat = 0.0
+    private var subImageBorderBottom : CGFloat = 0.0
     private var subImageBorderLeft : CGFloat = 0.0
     
     /* about image */
@@ -140,10 +140,10 @@ class DrawModel {
         //print("after switch. pos1:\(subImages[pos1.line][pos1.row].toString())")
     }
     
-    internal func SetDstPanel(_dstRect : CGRect, _subImageBorderTop : CGFloat, _subImageBorderLeft :CGFloat)
+    internal func SetDstPanel(_dstRect : CGRect, _subImageBorderLeft :CGFloat, _subImageBorderBottom : CGFloat)
     {
         dstRect = _dstRect
-        subImageBorderTop = _subImageBorderTop
+        subImageBorderBottom = _subImageBorderBottom
         subImageBorderLeft = _subImageBorderLeft
     }
     
@@ -156,10 +156,10 @@ class DrawModel {
         let subh : CGFloat = size.height / CGFloat(lineNum)
         
         dstBlockSize = CGSize(width: (dstRect.size.width / CGFloat(rowNum)), height: (dstRect.size.height / CGFloat(lineNum)))
-        if (2 * subImageBorderLeft >= dstBlockSize.width || 2 * subImageBorderTop >= dstBlockSize.height) {
+        if (2 * subImageBorderLeft >= dstBlockSize.width || 2 * subImageBorderBottom >= dstBlockSize.height) {
             dstRectInBlock = CGRectMake(dstBlockSize.width / 2, dstBlockSize.height / 2, 1, 1)
         } else {
-            dstRectInBlock = CGRectMake(subImageBorderLeft, subImageBorderTop, dstBlockSize.width - 2 * subImageBorderLeft, dstBlockSize.height - 2 * subImageBorderTop)
+            dstRectInBlock = CGRectMake(subImageBorderLeft, subImageBorderBottom, dstBlockSize.width - 2 * subImageBorderLeft, dstBlockSize.height - 2 * subImageBorderBottom)
         }
         
         if (subImages.count != 0) {
@@ -173,7 +173,8 @@ class DrawModel {
                 let subImage = SubImage()
                 subImage.Blank = false
                 subImage.orgPosition = SubImagePosition(line, row)
-                subImage.SrcRect = CGRect(x: CGFloat(row) * subw, y: CGFloat(line) * subh, width: subw, height: subh)
+                //subImage.SrcRect = CGRect(x: CGFloat(row) * subw, y: CGFloat(line) * subh, width: subw, height: subh) /* TODO : as the uiimage is not the user coordinated system */
+                subImage.SrcRect = CGRect(x: CGFloat(row) * subw, y: CGFloat(lineNum - 1 - line) * subh, width: subw, height: subh)
                 subImage.DstRect = DstRectByIndex(line, row)
                 subImages[line].append(subImage)
                 //print("subImages[\(line)][\(row)]:\(subImages[line][row].toString())")
