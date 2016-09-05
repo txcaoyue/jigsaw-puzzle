@@ -1,8 +1,9 @@
 Target:
-    jigsaw puzzle game
+    jigsaw puzzle game on ios
 
 Learn:
 No1: graphic drawing on ios
+N02: swift array
 
 
 Learn Path:
@@ -12,6 +13,16 @@ No1:
     Quartz 2D
         UIView 的drawRect方法可以实现窗口局部刷新。
 
+No2:
+    New array
+    Sort array
+
+
+dots:
+draw line:
+    CGContextMoveToPoint(ctx, subImage!.DstRect.origin.x, subImage!.DstRect.origin.y)
+    CGContextAddLineToPoint(ctx, subImage!.DstRect.origin.x + subImage!.DstRect.size.width, subImage!.DstRect.origin.y + subImage!.DstRect.size.height)
+    CGContextStrokePath(ctx)
 
 add story:
     the rescuer 拯救者
@@ -23,5 +34,6 @@ TODO
     (DONE)根据子图的位置，输出UIView需要更的范围
     (DONE)adjust coordinated system
     (DONE)打乱顺序： 数组排序
-    board方框，绿色光环
+    (DONE)board方框，绿色光环
+        fill操作
 

@@ -16,6 +16,7 @@ class DrawView: UIView {
     var increase : Int = 0
     var drawModel : DrawModel? = nil
     var subImageCount : Int = 0
+    var dstRect : CGRect? = nil
 
     override func drawRect(rect: CGRect) {
         //print("drawRect \(rect)")
@@ -37,23 +38,45 @@ class DrawView: UIView {
 
          if drawModel == nil {
             drawModel = DrawModel()
-            drawModel?.SetDstPanel(CGRectMake(0.0, 0.0, 660, 660), _subImageBorderLeft: 5, _subImageBorderBottom: 5)
+            dstRect = CGRectMake(10.0, 10.0, 660, 660)
+            drawModel!.SetDstPanel(dstRect!, _subImageBorderLeft: 2.5, _subImageBorderBottom: 2.5)
             subImageCount = drawModel!.ImportImage(imageSize: uiimg!.size, lineNum: 3, rowNum: 3)
             drawModel!.SetBlank(0)
         }
         
+        /* show org image */
+        var orgRect = CGRect()
+        if (self.frame.width < self.frame.height) {
+            orgRect = CGRectMake(10.0, 710.0, 300, 300)
+        } else {
+            orgRect = CGRectMake(710.0, 10.0, 300, 300)
+            
+        }
+        CGContextDrawImage(ctx, orgRect, cgImage)
+        CGContextMoveToPoint(ctx, orgRect.origin.x, orgRect.origin.y)
+        CGContextAddLineToPoint(ctx, orgRect.origin.x, orgRect.origin.y + orgRect.height)
+        CGContextAddLineToPoint(ctx, orgRect.origin.x + orgRect.width, orgRect.origin.y + orgRect.height)
+        CGContextAddLineToPoint(ctx, orgRect.origin.x + orgRect.width, orgRect.origin.y)
+        CGContextAddLineToPoint(ctx, orgRect.origin.x, orgRect.origin.y)
+        CGContextStrokePath(ctx)
+
         /* draw panel according draw model */
         for index in 0 ... subImageCount-1 {
             let subImage = drawModel!.GetSubImage(index)
             let _image = CGImageCreateWithImageInRect(cgImage, subImage!.SrcRect)
-            
             CGContextDrawImage(ctx, subImage!.DstRect, _image)
             if subImage!.Blank {
-                CGContextMoveToPoint(ctx, subImage!.DstRect.origin.x, subImage!.DstRect.origin.y)
-                CGContextAddLineToPoint(ctx, subImage!.DstRect.origin.x + subImage!.DstRect.size.width, subImage!.DstRect.origin.y + subImage!.DstRect.size.height)
-                CGContextStrokePath(ctx)
+                CGContextSetRGBFillColor(ctx, 0.0, 1.0, 0.0, 0.2);
+                CGContextFillRect(ctx, subImage!.DstRect)
             }
         }
+        
+        CGContextMoveToPoint(ctx, dstRect!.origin.x, dstRect!.origin.y)
+        CGContextAddLineToPoint(ctx, dstRect!.origin.x, dstRect!.origin.y + dstRect!.height)
+        CGContextAddLineToPoint(ctx, dstRect!.origin.x + dstRect!.width, dstRect!.origin.y + dstRect!.height)
+        CGContextAddLineToPoint(ctx, dstRect!.origin.x + dstRect!.width, dstRect!.origin.y)
+        CGContextAddLineToPoint(ctx, dstRect!.origin.x, dstRect!.origin.y)
+        CGContextStrokePath(ctx)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
